@@ -40,6 +40,7 @@ class Movies extends Component {
             <Table>
               <thead className= "Movies-table">
                 <tr>
+                  <th></th>
                   <th>Title</th>
                   <th>Rating</th>
                 </tr>
@@ -47,11 +48,13 @@ class Movies extends Component {
               <tbody className= "Movies-table">
               {movies.map(movie =>
             <tr key={movie.id}>
+              <td><img src={testmovie.Poster} className="App-logo" alt="logo" /></td>
               <td>{movie.name}</td>
                <td>{movie.rating}</td>
             </tr>
               )}
              <tr>
+             <td><img src={testmovie.Poster} className="App-logo" alt="logo" /></td>
                 <td>{testmovie.Title}</td>
                 <td>{testmovie.Ratings[0].Value}</td>
               </tr>

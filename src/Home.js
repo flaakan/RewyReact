@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import logo from './logo.svg';
 import AppNavbar from './AppNavbar';
+import Footer from './Footer';
 
 
 class Home extends Component {
@@ -11,12 +12,12 @@ class Home extends Component {
         <AppNavbar/>
         <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
           <div className="App-intro">
     <h1>Welocme to Rewy!</h1>
           </div>
         </header>
       </div>
+
       </div>
     );
   }

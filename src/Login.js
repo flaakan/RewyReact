@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
-import logo from './logo.svg';
 import AppNavbar from './AppNavbar';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import { Button, Container } from 'reactstrap';
 import axios from "axios";
+import Registration from './Registration';
 
 class Login extends Component {
     constructor(props) {
@@ -13,7 +13,8 @@ class Login extends Component {
         this.state = {
             username: "",
             password: "",
-            loginErrors: ""
+            message:[],
+            loggedinuser:[]
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -28,40 +29,34 @@ class Login extends Component {
     }
 
     handleSubmit(event) {
-        console.log(this.state);
-        const { username, password } = this.state;
+        const { username, password,loggedinuser} = this.state;
+        let user = {username:username,password:password};
+       axios.post('http://localhost:8080/login',user).then(res=> {
+           console.log(res)
+           if(res.data.username !=null){
+               
+               this.setState({loggedinuser:res.data})
+               this.setState({message:"Welcome to Rewy "+this.state.loggedinuser.username+"!"})
+           }
+           else{
+               this.setState({message:"Login unsuccessful, try again!"});
+           }
+       })} 
 
-    /*    axios
-            .post(
-                "http://localhost:8080/login",
-                {
-                    user: {
-                        username: username,
-                        password: password
-                    }
-                },
-                { withCredentials: true }
-            )
-            .then(response => {
-                if (response.data.logged_in) {
-                    this.props.handleSuccessfulAuth(response.data);
-                }
-            })
-            .catch(error => {
-                console.log("login error", error);
-            });
-        event.preventDefault();*/
-    }
+       regClicked(){
+           this.props.history.push('/register')
+       }
+    
     render() {
         return (
             <div>
                 <AppNavbar />
                 <div className="App">
                     <header className="App-header">
-                        <img src={logo} className="App-logo" alt="logo" />
                         <div className="App-intro">
                             <h1>Log in </h1>
-                            <form onSubmit={this.handleSubmit}>
+        <div>{this.state.message}</div>
+        <Container>
                                 <input
                                     type="username"
                                     name="username"
@@ -79,9 +74,13 @@ class Login extends Component {
                                     onChange={this.handleChange}
                                     required
                                 />
-
-                                <button type="submit">Login</button>
-                            </form>
+<div>
+                                <Button onClick={this.handleSubmit}>Login</Button>
+                                <Link to="/register">
+                                <Button>Register</Button>
+                                </Link>
+                                </div>
+                                </Container>
                         </div>
                     </header>
                 </div>
