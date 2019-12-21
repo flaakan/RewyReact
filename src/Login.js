@@ -42,10 +42,6 @@ class Login extends Component {
                this.setState({message:"Login unsuccessful, try again!"});
            }
        })} 
-
-       regClicked(){
-           this.props.history.push('/register')
-       }
     
     render() {
         return (
