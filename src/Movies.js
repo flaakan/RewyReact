@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 import AppNavbar from './AppNavbar';
 import { Table } from 'reactstrap';
+import MovieSlide from './MovieSlide';
+
 
 class Movies extends Component {
   constructor(props){
@@ -20,9 +22,11 @@ class Movies extends Component {
     const moviebod = await movieres.json();
     console.log(moviebod)
     const body = await response.json();
-    console.log();
+    console.log(body);
     this.setState({ movies: body, isLoading: false, testmovie:moviebod});
   }
+
+   
 
   render() {
     const {movies, isLoading,testmovie} = this.state;
@@ -37,6 +41,7 @@ class Movies extends Component {
         <header className="App-header">
           <div className="App-intro">
             <h2>Movies</h2>
+      <MovieSlide property = {testmovie}/>
             <Table>
               <thead className= "Movies-table">
                 <tr>
@@ -46,11 +51,13 @@ class Movies extends Component {
                 </tr>
               </thead>
               <tbody className= "Movies-table">
-              {movies.map(movie =>
-            <tr key={movie.id}>
+              {movies.map(movielist =>
+            <tr key={movielist.movie.id}>
               <td><img src={testmovie.Poster} className="App-logo" alt="logo" /></td>
-              <td>{movie.name}</td>
-               <td>{movie.rating}</td>
+              <td>{movielist.movie.name}</td>
+              <td>{movielist.movie.rating}</td>
+
+              
             </tr>
               )}
              <tr>
