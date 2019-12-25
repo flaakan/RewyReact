@@ -9,12 +9,8 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-<<<<<<< HEAD
-    animation: App-logo-spin infinite 20s linear;
-=======
-   /* animation: App-logo-spin infinite 20s linear;*/
->>>>>>> test
+.App-logo {
+   animation: App-logo-spin infinite 20s linear;
   }
 }
 
