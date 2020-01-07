@@ -23,7 +23,7 @@ return(<NavLink href="/login">Log In</NavLink>)
   }
 
   render() {
-    return <Navbar color="dark" dark expand="md">
+    return <Navbar expand="md">
       <NavbarBrand tag={Link} to="/">Rewy</NavbarBrand>
       <NavbarToggler onClick={this.toggle}/>
       <Collapse isOpen={this.state.isOpen} navbar>

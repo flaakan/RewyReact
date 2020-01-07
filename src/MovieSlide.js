@@ -5,28 +5,35 @@ import axios from "axios";
 import './MovieSlide.css';
 
 function MovieModal(props) {
-
-  return (
-    <Modal {...props} class>
-      <Modal.Dialog>
+  let movie;
+  if (props.movie) {
+    movie = props.movie;
+    console.log(movie);
+ 
+    return (
+    <Modal {...props}>
         <Modal.Header closeButton>
-          <Modal.Title>{props.movie.name}</Modal.Title>
+  <Modal.Title>{movie.movie.name}</Modal.Title>
         </Modal.Header>
-
-        <Modal.Body><div>
-          <img src={props.movie.poster} class="center" />
-          </div>
+        <Modal.Body><div class ="center">
+          <img class="center"   key={movie.movie.id} src={movie.movie.poster} /></div>
           <h2>Description</h2>
-          {props.movie.description}
+          <p>{movie.movie.description}</p>
+          <h2>Rating</h2>
+         <h5>imdb: {movie.movie.imdb}</h5>
+         <h5> rotten tomatoes: {movie.movie.rotten_tomatoes}</h5>
         </Modal.Body>
-      </Modal.Dialog>
+      
 
     </Modal>
+  
   );
+  }
+  return(<Modal></Modal>);
 }
 
 function ControlledCarousel(movies) {
-  const [movie, setMovie] = useState('');
+  const [movie, setMovie] = useState("");
   const [modalShow, setModalShow] = useState(false);
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(null);
@@ -34,52 +41,50 @@ function ControlledCarousel(movies) {
     setIndex(selectedIndex);
     setDirection(e.direction);
   }
-  
-  function createMovieModal(){
-    return(
-    <MovieModal
-    movie={movie}
-    show={modalShow}
-    onHide={() => setModalShow(false)}/>)
+
+  function createMovieModal() {
+    return (
+      <MovieModal
+        movie={movie}
+        show={modalShow}
+        onHide={() => setModalShow(false)} />)
   }
 
   const imageClick = (event) => {
-    axios.get("/movie/"+event.target.id).then((response) =>
-    setMovie(response.data));
+    axios.get("/movie/" + event.target.id).then(response => (setMovie(response.data)));
     createMovieModal();
     setModalShow(true);
 
   };
   function createSlide(counter) {
     let moviecount = counter;
-    console.log(movies.property.length)
-    if(counter>=movies.property.length){
+    if (counter >= movies.property.length) {
       moviecount = 0
     }
     let slides = []
-      for (let i = moviecount; i < moviecount+3; i++) {
-        slides.push(<img class="movieimg" key={movies.property[i].movie.id} id={movies.property[i].movie.id} src={movies.property[i].movie.poster} onClick={imageClick} alt="" />);
-      }
+    for (let i = moviecount; i < moviecount + 3; i++) {
+      slides.push(<img className="movieimg" key={movies.property[i].movie.id} id={movies.property[i].movie.id} src={movies.property[i].movie.poster} onClick={imageClick} alt="" />);
+    }
     return slides
   }
 
-  function createCarouselItems(){
+  function createCarouselItems() {
     let carouselItems = [];
     let counter = 0;
-    for(let i=0; i<2; i++){
-      carouselItems.push(<Carousel.Item key={i} ><div class = "shadow">{createSlide(counter)}</div></Carousel.Item>)
-      counter = counter +3;
+    for (let i = 0; i < 2; i++) {
+      carouselItems.push(<Carousel.Item key={i} ><div>{createSlide(counter)}</div></Carousel.Item>)
+      counter = counter + 3;
     }
     return carouselItems
   }
 
   return (
     <>
-      <Carousel  activeIndex={index} direction={direction} onSelect={handleSelect} interval={null}>
-          {createCarouselItems()}
+      <Carousel activeIndex={index} direction={direction} onSelect={handleSelect} interval={null}>
+        {createCarouselItems()}
       </Carousel>
       {createMovieModal()}
-        
+
     </>
   );
 }
