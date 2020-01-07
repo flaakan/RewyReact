@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import './App.css';
+import './App.scss';
 import AppNavbar from './AppNavbar';
-import { Table } from 'reactstrap';
 import MovieSlide from './MovieSlide';
-
 
 class Movies extends Component {
   constructor(props){
@@ -12,24 +10,17 @@ class Movies extends Component {
   this.state = {
     isLoading: true,
     movies: [],
-    testmovie: []
   };
 }
 
   async componentDidMount() {
-    const movieres = await fetch('http://www.omdbapi.com/?i=tt3896198&apikey=30042119');
     const response = await fetch('/movies');
-    const moviebod = await movieres.json();
-    console.log(moviebod)
     const body = await response.json();
-    console.log(body);
-    this.setState({ movies: body, isLoading: false, testmovie:moviebod});
+    this.setState({ movies: body, isLoading: false,});
   }
 
-   
-
   render() {
-    const {movies, isLoading,testmovie} = this.state;
+    const {movies, isLoading} = this.state;
 
     if (isLoading) {
       return <p>Loading...</p>;
@@ -41,33 +32,7 @@ class Movies extends Component {
         <header className="App-header">
           <div className="App-intro">
             <h2>Movies</h2>
-      <MovieSlide property = {testmovie}/>
-            <Table>
-              <thead className= "Movies-table">
-                <tr>
-                  <th></th>
-                  <th>Title</th>
-                  <th>Rating</th>
-                </tr>
-              </thead>
-              <tbody className= "Movies-table">
-              {movies.map(movielist =>
-            <tr key={movielist.movie.id}>
-              <td><img src={testmovie.Poster} className="App-logo" alt="logo" /></td>
-              <td>{movielist.movie.name}</td>
-              <td>{movielist.movie.rating}</td>
-
-              
-            </tr>
-              )}
-             <tr>
-             <td><img src={testmovie.Poster} className="App-logo" alt="logo" /></td>
-                <td>{testmovie.Title}</td>
-                <td>{testmovie.Ratings[0].Value}</td>
-              </tr>
-              </tbody>
-            </Table>
-
+      <MovieSlide property = {movies}/>
           </div>
         </header>
       </div>

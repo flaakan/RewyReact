@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import './App.css';
+import './App.scss';
 import AppNavbar from './AppNavbar';
-import { Link, Route } from 'react-router-dom';
 import { Button, Container } from 'reactstrap';
 import axios from "axios";
 
@@ -27,7 +26,7 @@ class Registration extends Component {
 
 
     handleSubmit(event) {
-        const { username, password,loggedinuser} = this.state;
+        const { username, password} = this.state;
         let user = {username:username,password:password};
        axios.post('http://localhost:8080/registration',user).then(res=> {
            console.log(res)

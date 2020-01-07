@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import './App.css';
+import './App.scss';
 import AppNavbar from './AppNavbar';
-import { Link, Route } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import { Button, Container } from 'reactstrap';
 import axios from "axios";
-import Registration from './Registration';
 
 class Login extends Component {
     constructor(props) {
@@ -13,8 +12,8 @@ class Login extends Component {
         this.state = {
             username: "",
             password: "",
-            message:[],
-            loggedinuser:[]
+            message: [],
+            loggedinuser: []
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,20 +28,25 @@ class Login extends Component {
     }
 
     handleSubmit(event) {
-        const { username, password,loggedinuser} = this.state;
-        let user = {username:username,password:password};
-       axios.post('http://localhost:8080/login',user).then(res=> {
-           console.log(res)
-           if(res.data.username !=null){
-               
-               this.setState({loggedinuser:res.data})
-               this.setState({message:"Welcome to Rewy "+this.state.loggedinuser.username+"!"})
-           }
-           else{
-               this.setState({message:"Login unsuccessful, try again!"});
-           }
-       })} 
-    
+        const { username, password, loggedinuser } = this.state;
+        let user = { username: username, password: password };
+        axios.post('http://localhost:8080/login', user).then(res => {
+            if (res.data.username != null) {
+                console.log(res.data)
+                this.setState({ loggedinuser: res.data })
+                this.sendData();
+                this.props.history.push("/");
+            }
+            else {
+                this.setState({ message: "Login unsuccessful, try again!" });
+            }
+        })
+    }
+
+    sendData = () => {
+        this.props.parentCallback(this.state.loggedinuser);
+   }
+
     render() {
         return (
             <div>
@@ -51,8 +55,8 @@ class Login extends Component {
                     <header className="App-header">
                         <div className="App-intro">
                             <h1>Log in </h1>
-        <div>{this.state.message}</div>
-        <Container>
+                            <div>{this.state.message}</div>
+                            <Container>
                                 <input
                                     type="username"
                                     name="username"
@@ -70,13 +74,13 @@ class Login extends Component {
                                     onChange={this.handleChange}
                                     required
                                 />
-<div>
-                                <Button onClick={this.handleSubmit}>Login</Button>
-                                <Link to="/register">
-                                <Button>Register</Button>
-                                </Link>
+                                <div>
+                                    <Button onClick={this.handleSubmit}>Login</Button>
+                                    <Link to="/register">
+                                        <Button>Register</Button>
+                                    </Link>
                                 </div>
-                                </Container>
+                            </Container>
                         </div>
                     </header>
                 </div>

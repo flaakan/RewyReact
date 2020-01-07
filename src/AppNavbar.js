@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
-
+import './App.scss';
 export default class AppNavbar extends Component {
   constructor(props) {
     super(props);
@@ -13,6 +13,13 @@ export default class AppNavbar extends Component {
     this.setState({
       isOpen: !this.state.isOpen
     });
+  }
+
+  loginOrOut(){
+    if(this.props.isLoggedIn){
+      return(<NavLink href="/login">Log Out</NavLink>)
+    }
+return(<NavLink href="/login">Log In</NavLink>)
   }
 
   render() {
@@ -29,7 +36,7 @@ export default class AppNavbar extends Component {
             <NavLink href="/movies">Movies</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="/login">Log In</NavLink>
+            {this.loginOrOut()}
           </NavItem>
         </Nav>
       </Collapse>

@@ -1,25 +1,39 @@
 import React, { Component } from 'react';
-import './App.css';
-import logo from './logo.svg';
+import './App.scss';
 import AppNavbar from './AppNavbar';
-import Footer from './Footer';
-import { Button } from 'react-bootstrap';
-import MovieSlide from './MovieSlide';
+
 
 class Home extends Component {
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      loggedinuser: this.props.loggedinuser,
+      isLoggedIn: this.props.isLoggedIn
+  };
+  }
+  
+
+  homeMessage() {
+    if (this.state.isLoggedIn) {
+      return (<h1>Welcome to Rewy {this.state.loggedinuser.username}!</h1>)
+    }
+    return (<h1>Welcome to Rewy!</h1>)
+
+  }
+
 
   render() {
     return (
       <div>
-        <AppNavbar/>
+        <AppNavbar isLoggedIn={this.props.isLoggedIn} />
         <div className="App">
-        <header className="App-header">
-          <div className="App-intro">
-    <h1>Welcome to Rewy!</h1>
-
-          </div>
-        </header>
-      </div>
+          <header className="App-header">
+            <div className="App-intro">
+              {this.homeMessage()}
+            </div>
+          </header>
+        </div>
 
       </div>
     );
