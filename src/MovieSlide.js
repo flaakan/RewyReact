@@ -6,34 +6,75 @@ import './MovieSlide.css';
 
 function MovieModal(props) {
   let movie;
+  let reviews;
+
+
+
   if (props.movie) {
     movie = props.movie;
+    reviews = props.reviews;
     console.log(movie);
- 
+
+    function showReviews(reviews) {
+      let tableData = [];
+
+      if (reviews) {
+        console.log(reviews[0]);
+        for (let i = 0; i < reviews.length; i++) {
+          tableData.push(
+            <tr key= {i}>
+              <td>{reviews[i].user.username}</td>
+              <td>{reviews[i].reviewText}</td>
+            </tr>)
+
+        }
+      }
+      return (
+        tableData
+      )
+
+    };
+
     return (
-    <Modal {...props}>
+      <Modal {...props}>
         <Modal.Header closeButton>
-  <Modal.Title>{movie.movie.name}</Modal.Title>
+          <Modal.Title>{movie.movie.name}</Modal.Title>
         </Modal.Header>
-        <Modal.Body><div class ="center">
-          <img class="center"   key={movie.movie.id} src={movie.movie.poster} /></div>
+        <Modal.Body><div className="center">
+          <img className="center" key={movie.movie.id} src={movie.movie.poster} /></div>
           <h2>Description</h2>
           <p>{movie.movie.description}</p>
           <h2>Rating</h2>
-         <h5>imdb: {movie.movie.imdb}</h5>
-         <h5> rotten tomatoes: {movie.movie.rotten_tomatoes}</h5>
-        </Modal.Body>
-      
+          <h5>imdb: {movie.movie.imdb}</h5>
+          <h5> rotten tomatoes: {movie.movie.rotten_tomatoes}</h5>
 
-    </Modal>
-  
-  );
+          <h2>Reviews</h2>
+          <table className="table">
+
+            <thead>
+              <tr>
+                <th scope="col">User</th>
+                <th scope="col">Review</th>
+              </tr>
+            </thead>
+            <tbody>
+              {showReviews(reviews)}
+
+            </tbody>
+          </table>
+        </Modal.Body>
+
+
+      </Modal>
+
+    );
   }
-  return(<Modal></Modal>);
+  return (<Modal></Modal>);
 }
 
 function ControlledCarousel(movies) {
-  const [movie, setMovie] = useState("");
+  const [movie, setMovie] = useState();
+  const [reviews, setReviews] = useState();
   const [modalShow, setModalShow] = useState(false);
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(null);
@@ -47,11 +88,14 @@ function ControlledCarousel(movies) {
       <MovieModal
         movie={movie}
         show={modalShow}
+        reviews={reviews}
         onHide={() => setModalShow(false)} />)
   }
 
   const imageClick = (event) => {
     axios.get("/movie/" + event.target.id).then(response => (setMovie(response.data)));
+    axios.get("/reviews/" + event.target.id).then(response => (setReviews(response.data)));
+
     createMovieModal();
     setModalShow(true);
 

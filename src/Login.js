@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import './App.scss';
 import AppNavbar from './AppNavbar';
 import { Link} from 'react-router-dom';
@@ -13,7 +13,8 @@ class Login extends Component {
             username: "",
             password: "",
             message: [],
-            loggedinuser: []
+            loggedinUser: [],
+            loggedInStatus: false
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -28,13 +29,13 @@ class Login extends Component {
     }
 
     handleSubmit(event) {
-        const { username, password, loggedinuser } = this.state;
+        const { username, password, loggedinUser,loggedInStatus } = this.state;
         let user = { username: username, password: password };
         axios.post('http://localhost:8080/login', user).then(res => {
             if (res.data.username != null) {
-                console.log(res.data)
-                this.setState({ loggedinuser: res.data })
                 this.sendData();
+                localStorage.setItem('loggedInUser',JSON.stringify(res.data));
+                localStorage.setItem('loggInStatus', true);
                 this.props.history.push("/");
             }
             else {

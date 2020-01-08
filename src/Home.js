@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import './App.scss';
 import AppNavbar from './AppNavbar';
 
@@ -8,15 +8,26 @@ class Home extends Component {
     super(props);
     
     this.state = {
-      loggedinuser: this.props.loggedinuser,
-      isLoggedIn: this.props.isLoggedIn
+      loggedInUser:[],
+      loggedInStatus: false
   };
   }
   
 
+  componentDidMount() {
+    const user = localStorage.getItem('loggedInUser');
+    const status = localStorage.getItem('loggInStatus');
+    console.log(JSON.parse(status))
+    
+    this.setState({loggedInUser:JSON.parse(user),loggedInStatus:JSON.parse(status)});
+}
+
+
+
   homeMessage() {
-    if (this.state.isLoggedIn) {
-      return (<h1>Welcome to Rewy {this.state.loggedinuser.username}!</h1>)
+    console.log(this.state.loggedInUser)
+    if (this.state.loggedInStatus) {
+      return (<h1>Welcome to Rewy {this.state.loggedInUser.username}!</h1>)
     }
     return (<h1>Welcome to Rewy!</h1>)
 
@@ -26,7 +37,7 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <AppNavbar isLoggedIn={this.props.isLoggedIn} />
+        <AppNavbar loggedInStatus={this.props.loggedInStatus} />
         <div className="App">
           <header className="App-header">
             <div className="App-intro">
