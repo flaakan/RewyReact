@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
+import { Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink, DropdownItem, Dropdown, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './App.scss';
 export default class AppNavbar extends Component {
@@ -26,7 +26,7 @@ export default class AppNavbar extends Component {
   }
 
 
-  onLogout(){
+  onLogout() {
     localStorage.removeItem('loggedInUser');
     localStorage.removeItem('loggInStatus');
   }
@@ -35,10 +35,36 @@ export default class AppNavbar extends Component {
   loginOrOut() {
     if (this.state.loggedInStatus) {
       return (<>
-   <NavItem><NavLink href="" >{this.state.loggedInUser.username}</NavLink></NavItem> 
-   <NavItem> <NavLink href="/login" onClick={this.onLogout}>Log Out</NavLink></NavItem> 
+        <UncontrolledDropdown nav inNavbar>
+          <DropdownToggle nav caret>
+            {this.state.loggedInUser.username}
+          </DropdownToggle>
+          <DropdownMenu right>
+
+            <NavLink>
+              <DropdownItem href="/login">
+                Your Reviews
+                </DropdownItem>
+            </NavLink>
+
+            <NavLink>
+              <DropdownItem href="/login">
+                Settings
+                </DropdownItem>
+            </NavLink>
+
+            <NavLink>
+              <DropdownItem href="/login">
+                Your Reviews
+                </DropdownItem>
+            </NavLink>
+
+          </DropdownMenu>
+        </UncontrolledDropdown>
+
+        <NavItem> <NavLink href="/login" onClick={this.onLogout}>Log Out</NavLink></NavItem>
       </>)
-      
+
     }
     return (<NavLink href="/login">Log In</NavLink>)
   }
@@ -56,7 +82,8 @@ export default class AppNavbar extends Component {
           <NavItem>
             <NavLink href="/movies">Movies</NavLink>
           </NavItem>
-            {this.loginOrOut()}
+
+          {this.loginOrOut()}
 
         </Nav>
       </Collapse>

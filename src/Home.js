@@ -6,21 +6,21 @@ import AppNavbar from './AppNavbar';
 class Home extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
-      loggedInUser:[],
+      loggedInUser: [],
       loggedInStatus: false
-  };
+    };
   }
-  
+
 
   componentDidMount() {
     const user = localStorage.getItem('loggedInUser');
     const status = localStorage.getItem('loggInStatus');
     console.log(JSON.parse(status))
-    
-    this.setState({loggedInUser:JSON.parse(user),loggedInStatus:JSON.parse(status)});
-}
+
+    this.setState({ loggedInUser: JSON.parse(user), loggedInStatus: JSON.parse(status) });
+  }
 
 
 
@@ -40,8 +40,10 @@ class Home extends Component {
         <AppNavbar loggedInStatus={this.props.loggedInStatus} />
         <div className="App">
           <header className="App-header">
-            <div className="App-intro">
-              {this.homeMessage()}
+            <div className="container">
+              <div className="App-intro">
+                {this.homeMessage()}
+              </div>
             </div>
           </header>
         </div>
